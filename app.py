@@ -10,12 +10,15 @@ def handle_webhook():
     try:
         # Recebe o JSON enviado pelo webhook
         data = request.json
+        print("Request recebido:")
+        print(request)
         print("Webhook recebido:")
         print(data)
 
         # Verifica se o evento é uma nova mensagem
         if data and 'event' in data and data['event'] == 'messages.upsert':
             # Percorre a lista de mensagens no payload
+            print("Evento de nova mensagem detectado.")
             for message in data['data']:
                 # Verifica se a mensagem foi recebida por sua instância (não enviada por ela)
                 # 'fromMe': False é a forma de identificar mensagens recebidas
@@ -34,6 +37,7 @@ def handle_webhook():
         return jsonify({"status": "ok"}), 200
 
     except Exception as e:
+        print("Ocorreu uma exceção!")
         print(f"Erro ao processar o webhook: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
 
